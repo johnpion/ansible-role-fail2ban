@@ -1,18 +1,18 @@
-- name:     install fail2ban
-  apt:
-    pkg:    fail2ban
+- name: Install fail2ban
+  ansible.builtin.apt:
+    pkg: fail2ban
 
-- name:     config pve
-  copy:
-    src:    "{{ item.src }}"
-    dest:   "{{ item.dest }}"
-    owner:  root
-    group:  root
-    mode:   0640
+- name: Config proxmox
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: "0640"
   loop:
-    - src:  pve/jail.conf
+    - src: pve/jail.conf
       dest: /etc/fail2ban/jail.d/pve.conf
-    - src:  pve/filter.conf
+    - src: pve/filter.conf
       dest: /etc/fail2ban/filter.d/pve.conf
   when: "'pve' in group_names"
-  notify: restart fail2ban
+  notify: Restart fail2ban
